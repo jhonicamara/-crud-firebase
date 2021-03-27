@@ -11,46 +11,45 @@ import { TextInput } from "react-native-gesture-handler";
 
 import firebase from "../database/firebase";
 
-const UserDetailScreen = (props) => {
+const ProductDetailScreen = (props) => {
   const initialState = {
     id: "",
-    name: "",
-    email: "",
-    phone: "",
+    product: "",
+    price: "",
   };
 
-  const [user, setUser] = useState(initialState);
+  const [product, setProduct] = useState(initialState);
   const [loading, setLoading] = useState(true);
 
   const handleTextChange = (value, prop) => {
-    setUser({ ...user, [prop]: value });
+    setProduct({ ...product, [prop]: value });
   };
 
-  const getUserById = async (id) => {
-    const dbRef = firebase.db.collection("users").doc(id);
+  const getProductById = async (id) => {
+    const dbRef = firebase.db.collection("products").doc(id);
     const doc = await dbRef.get();
-    const user = doc.data();
-    setUser({ ...user, id: doc.id });
+    const product = doc.data();
+    setProduct({ ...product, id: doc.id });
     setLoading(false);
   };
 
-  const deleteUser = async () => {
+  const deleteProduct = async () => {
     setLoading(true)
     const dbRef = firebase.db
-      .collection("users")
-      .doc(props.route.params.userId);
+      .collection("products")
+      .doc(props.route.params.productId);
     await dbRef.delete();
     setLoading(false)
-    props.navigation.navigate("UsersList");
+    props.navigation.navigate("ProductsList");
   };
 
   const openConfirmationAlert = () => {
     Alert.alert(
-      "Removing the User",
-      "Are you sure?",
+      "Deletando o Produto",
+      "Você tem certeza?",
       [
-        { text: "Yes", onPress: () => deleteUser() },
-        { text: "No", onPress: () => console.log("canceled") },
+        { text: "Sim", onPress: () => deleteProduct() },
+        { text: "Não", onPress: () => console.log("canceled") },
       ],
       {
         cancelable: true,
@@ -58,19 +57,19 @@ const UserDetailScreen = (props) => {
     );
   };
 
-  const updateUser = async () => {
-    const userRef = firebase.db.collection("users").doc(user.id);
-    await userRef.set({
-      name: user.name,
-      email: user.email,
-      phone: user.phone,
+  const updateProduct = async () => {
+    const ProductRef = firebase.db.collection("products").doc(product.id);
+    await ProductRef.set({
+      name: product.name,
+      price: product.price,
     });
-    setUser(initialState);
-    props.navigation.navigate("UsersList");
+    setProduct(initialState);
+    props.navigation.navigate("ProductsList");
   };
 
   useEffect(() => {
-    getUserById(props.route.params.userId);
+    console.log(props.route.params.productId);
+    getProductById(props.route.params.productId);
   }, []);
 
   if (loading) {
@@ -86,39 +85,29 @@ const UserDetailScreen = (props) => {
       <View>
         <TextInput
           placeholder="Name"
-          autoCompleteType="username"
           style={styles.inputGroup}
-          value={user.name}
+          value={product.name}
           onChangeText={(value) => handleTextChange(value, "name")}
         />
       </View>
       <View>
         <TextInput
-          autoCompleteType="email"
-          placeholder="Email"
+          placeholder="Price"
+          keyboardType="number-pad"
           style={styles.inputGroup}
-          value={user.email}
-          onChangeText={(value) => handleTextChange(value, "email")}
-        />
-      </View>
-      <View>
-        <TextInput
-          placeholder="Phone"
-          autoCompleteType="tel"
-          style={styles.inputGroup}
-          value={user.phone}
-          onChangeText={(value) => handleTextChange(value, "phone")}
+          value={product.price}
+          onChangeText={(value) => handleTextChange(value, "price")}
         />
       </View>
       <View style={styles.btn}>
         <Button
-          title="Delete"
-          onPress={() => deleteUser()}
+          title="Deletar"
+          onPress={() => openConfirmationAlert()}
           color="#E37399"
         />
       </View>
       <View>
-        <Button title="Update" onPress={() => updateUser()} color="#19AC52" />
+        <Button title="Atualizar" onPress={() => updateProduct()} color="#19AC52" />
       </View>
     </ScrollView>
   );
@@ -146,8 +135,8 @@ const styles = StyleSheet.create({
     borderBottomColor: "#cccccc",
   },
   btn: {
-    marginBottom: 7,
+    marginBottom: 10,
   },
 });
 
-export default UserDetailScreen;
+export default ProductDetailScreen;

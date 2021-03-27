@@ -9,11 +9,10 @@ import {
 
 import firebase from "../database/firebase";
 
-const AddUserScreen = (props) => {
+const CreateProductScreen = (props) => {
   const initalState = {
     name: "",
-    email: "",
-    phone: "",
+    price: "",
   };
 
   const [state, setState] = useState(initalState);
@@ -22,19 +21,18 @@ const AddUserScreen = (props) => {
     setState({ ...state, [name]: value });
   };
 
-  const saveNewUser = async () => {
+  const saveNewProduct = async () => {
     if (state.name === "") {
       alert("please provide a name");
     } else {
 
       try {
-        await firebase.db.collection("users").add({
+        await firebase.db.collection("products").add({
           name: state.name,
-          email: state.email,
-          phone: state.phone,
+          price: state.price,
         });
 
-        props.navigation.navigate("UsersList");
+        props.navigation.navigate("ProductsList");
       } catch (error) {
         console.log(error)
       }
@@ -52,28 +50,16 @@ const AddUserScreen = (props) => {
         />
       </View>
 
-      {/* Email Input */}
       <View style={styles.inputGroup}>
         <TextInput
-          placeholder="Email"
-          multiline={true}
-          numberOfLines={4}
-          onChangeText={(value) => handleChangeText(value, "email")}
-          value={state.email}
-        />
-      </View>
-
-      {/* Input */}
-      <View style={styles.inputGroup}>
-        <TextInput
-          placeholder="phone"
-          onChangeText={(value) => handleChangeText(value, "phone")}
-          value={state.phone}
+          placeholder="Preço"
+          onChangeText={(value) => handleChangeText(value, "price")}
+          value={state.price}
         />
       </View>
 
       <View style={styles.button}>
-        <Button title="Save User" onPress={() => saveNewUser()} />
+        <Button title="Salvar Produto" onPress={() => saveNewProduct()} />
       </View>
     </ScrollView>
   );
@@ -102,4 +88,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddUserScreen;
+export default CreateProductScreen;

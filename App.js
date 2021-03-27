@@ -7,9 +7,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 // Components
-import CreateUserScreen from "./screens/CreateUserScreen";
-import UserDetailScreen from "./screens/UserDetailScreen";
-import UsersList from "./screens/UserList";
+import CreateProductScreen from "./screens/CreateProductScreen";
+import ProductDetailScreen from "./screens/ProductDetailScreen";
+import ProductsList from "./screens/ProductsList";
 
 const Stack = createStackNavigator();
 
@@ -18,7 +18,7 @@ function MyStack() {
     <Stack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: "#621FF7",
+          backgroundColor: "#00cc00",
         },
         headerTintColor: "#fff",
         headerTitleStyle: {
@@ -27,19 +27,19 @@ function MyStack() {
       }}
     >
       <Stack.Screen
-        name="UsersList"
-        component={UsersList}
-        options={{ title: "Users List" }}
+        name="ProductsList"
+        component={ProductsList}
+        options={{ title: "Lista de Produtos" }}
       />
       <Stack.Screen
-        name="CreateUserScreen"
-        component={CreateUserScreen}
-        options={{ title: "Create a New User" }}
+        name="CreateProductScreen"
+        component={CreateProductScreen}
+        options={{ title: "Criar um novo produto" }}
       />
       <Stack.Screen
-        name="UserDetailScreen"
-        component={UserDetailScreen}
-        options={{ title: "User Detail" }}
+        name="ProductDetailScreen"
+        component={ProductDetailScreen}
+        options={{ title: "Detalhes do produto" }}
       />
     </Stack.Navigator>
   );
