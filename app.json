@@ -1,0 +1,12 @@
+{
+  "name": "crud-expo-firebase",
+  "displayName": "crud-expo-firebase",
+  "expo": {
+    "name": "crud-expo-firebase",
+    "slug": "crud-expo-firebase",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
